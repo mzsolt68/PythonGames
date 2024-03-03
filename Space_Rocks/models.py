@@ -24,7 +24,8 @@ class GameObject:
         return distance < self.radius + other.radius
 
 class SpaceShip(GameObject):
-    ROTATION_SPEED = 3
+    ROTATION_SPEED = 1
+    ACCELERATION = 0.25
 
     def __init__(self, position: tuple):
         self.direction = Vector2(DIRECTION_UP)
@@ -34,6 +35,9 @@ class SpaceShip(GameObject):
         sign = 1 if clockwise else -1
         angle = self.ROTATION_SPEED * sign
         self.direction.rotate_ip(angle)
+
+    def accelerate(self):
+        self.velocity += self.direction * self.ACCELERATION
 
     def draw(self, surface: Surface):
         angle = self.direction.angle_to(DIRECTION_UP)
