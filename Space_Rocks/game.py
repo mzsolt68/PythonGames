@@ -29,6 +29,8 @@ class SpaceRocks:
             self.spaceship.rotate(clockwise=False)
         elif pressed_key[pg.K_RIGHT]:
             self.spaceship.rotate(clockwise=True)
+        elif pressed_key[pg.K_UP]:
+            self.spaceship.accelerate()
 
     def _game_logic(self):
         self.spaceship.move()
