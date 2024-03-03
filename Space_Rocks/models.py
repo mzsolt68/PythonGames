@@ -1,6 +1,7 @@
 from pygame.math import Vector2
 from pygame import Surface
 from pygame.transform import rotozoom
+import random
 from utils import load_a_sprite, wrap_position
 
 DIRECTION_UP = Vector2(0, -1)
@@ -47,3 +48,19 @@ class SpaceShip(GameObject):
 
         draw_pos = self.position - rotated_size * 0.5
         surface.blit(rotated, draw_pos)
+
+class Asteroid(GameObject):
+    MIN_START_GAP = 250
+
+    def __init__(self, surface: Surface, ship_position: Vector2):
+        # Generate a random position that far enough from the ship
+        while True:
+            position = Vector2(
+                random.randrange(surface.get_width()),
+                random.randrange(surface.get_height())
+            )
+
+            if position.distance_to(ship_position) > self.MIN_START_GAP:
+                break
+        
+        super().__init__(position, load_a_sprite("asteroid"), (0, 0))
