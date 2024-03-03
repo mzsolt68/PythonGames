@@ -1,6 +1,9 @@
 from pygame.math import Vector2
 from pygame import Surface
+from pygame.transform import rotozoom
 from utils import load_a_sprite
+
+DIRECTION_UP = Vector2(0, -1)
 
 class GameObject:
     def __init__(self, position: tuple, sprite: Surface, velocity: tuple):
@@ -21,5 +24,21 @@ class GameObject:
         return distance < self.radius + other.radius
 
 class SpaceShip(GameObject):
+    ROTATION_SPEED = 3
+
     def __init__(self, position: tuple):
+        self.direction = Vector2(DIRECTION_UP)
         super().__init__(position, load_a_sprite("spaceship"), (0, 0))
+
+    def rotate(self, clockwise: bool = True):
+        sign = 1 if clockwise else -1
+        angle = self.ROTATION_SPEED * sign
+        self.direction.rotate_ip(angle)
+
+    def draw(self, surface: Surface):
+        angle = self.direction.angle_to(DIRECTION_UP)
+        rotated = rotozoom(self.sprite, angle, 1.0)
+        rotated_size = Vector2(rotated.get_size())
+
+        draw_pos = self.position - rotated_size * 0.5
+        surface.blit(rotated, draw_pos)
