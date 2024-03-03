@@ -1,10 +1,12 @@
 import pygame as pg
+from utils import load_a_sprite
 
 class SpaceRocks:
     def __init__(self):
         pg.init()
         pg.display.set_caption("Space Rocks")
         self.screen = pg.display.set_mode((800, 600))
+        self.background = load_a_sprite("space", False)
 
     def game_loop(self):
         while True:
@@ -21,5 +23,5 @@ class SpaceRocks:
         pass
 
     def _draw(self):
-        self.screen.fill((0, 0, 0))
+        self.screen.blit(self.background, (0, 0))
         pg.display.flip()
