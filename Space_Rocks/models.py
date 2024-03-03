@@ -65,7 +65,8 @@ class Asteroid(GameObject):
     MIN_SPEED = 1
     MAX_SPEED = 3
 
-    def __init__(self, surface: Surface, ship_position: Vector2):
+    @classmethod
+    def create_random(cls, surface: Surface, ship_position: Vector2):
         # Generate a random position that far enough from the ship
         while True:
             position = Vector2(
@@ -73,13 +74,32 @@ class Asteroid(GameObject):
                 random.randrange(surface.get_height())
             )
 
-            if position.distance_to(ship_position) > self.MIN_START_GAP:
+            if position.distance_to(ship_position) > cls.MIN_START_GAP:
                 break
         
+        return Asteroid(position)
+
+    def __init__(self, position: tuple, size: int = 3):
+        self.size = size
+        if size == 3:
+            scale = 1.0
+        elif size == 2:
+            scale = 0.5
+        else:
+            scale = 0.25
+        
+        sprite = rotozoom(load_a_sprite("asteroid"), 0, scale)
+
         speed = random.randint(self.MIN_SPEED, self.MAX_SPEED)
         angle = random.randint(0, 360)
         velocity = Vector2(speed, 0).rotate(angle)
-        super().__init__(position, load_a_sprite("asteroid"), velocity)
+        super().__init__(position, sprite, velocity)
+
+    def split(self):
+        if self.size > 1:
+            from game import asteroids
+            asteroids.append(Asteroid(self.position, self.size - 1))
+            asteroids.append(Asteroid(self.position, self.size - 1))
 
 class Bullet(GameObject):
     def __init__(self, position: tuple, velocity: tuple):
