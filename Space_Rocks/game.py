@@ -6,6 +6,8 @@ class SpaceRocks:
     def __init__(self):
         pg.init()
         pg.display.set_caption("Space Rocks")
+        self.clock = pg.time.Clock()
+
         self.screen = pg.display.set_mode((800, 600))
         self.background = load_a_sprite("space", False)
 
@@ -39,3 +41,4 @@ class SpaceRocks:
         self.screen.blit(self.background, (0, 0))
         self.spaceship.draw(self.screen)
         pg.display.flip()
+        self.clock.tick(30)

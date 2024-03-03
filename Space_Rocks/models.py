@@ -24,7 +24,7 @@ class GameObject:
         return distance < self.radius + other.radius
 
 class SpaceShip(GameObject):
-    ROTATION_SPEED = 1
+    ROTATION_SPEED = 3
     ACCELERATION = 0.25
 
     def __init__(self, position: tuple):
