@@ -21,17 +21,19 @@ class SpaceRocks:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 quit()
+        
+        pressed_key = pg.key.get_pressed()
+        if pressed_key[pg.K_ESCAPE] or pressed_key[pg.K_q]:
+            quit()
+        if pressed_key[pg.K_LEFT]:
+            self.spaceship.rotate(clockwise=False)
+        elif pressed_key[pg.K_RIGHT]:
+            self.spaceship.rotate(clockwise=True)
 
     def _game_logic(self):
         self.spaceship.move()
-        self.asteroid.move()
 
     def _draw(self):
         self.screen.blit(self.background, (0, 0))
         self.spaceship.draw(self.screen)
-        self.asteroid.draw(self.screen)
         pg.display.flip()
-
-        if self.spaceship.is_collides(self.asteroid):
-            self.collisions += 1
-            print(f"Collisions: #{self.collisions}")
