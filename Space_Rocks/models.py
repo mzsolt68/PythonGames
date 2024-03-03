@@ -7,11 +7,12 @@ from utils import load_a_sprite, wrap_position
 DIRECTION_UP = Vector2(0, -1)
 
 class GameObject:
-    def __init__(self, position: tuple, sprite: Surface, velocity: tuple):
+    def __init__(self, position: tuple, sprite: Surface, velocity: tuple, wrap: bool = True):
         self.position = Vector2(position)
         self.sprite = sprite
         self.radius = sprite.get_width() / 2
         self.velocity = Vector2(velocity)
+        self.wrap = wrap
 
     def draw(self, surface: Surface):
         draw_pos = self.position - Vector2(self.radius)
@@ -19,7 +20,10 @@ class GameObject:
 
     def move(self, surface: Surface):
         move_to = self.position + self.velocity
-        self.position = wrap_position(surface, move_to)
+        if self.wrap:
+            self.position = wrap_position(surface, move_to)
+        else:
+            self.position = move_to
 
     def is_collides(self, other: 'GameObject') -> bool:
         distance = self.position.distance_to(other.position)
@@ -69,3 +73,7 @@ class Asteroid(GameObject):
         angle = random.randint(0, 360)
         velocity = Vector2(speed, 0).rotate(angle)
         super().__init__(position, load_a_sprite("asteroid"), velocity)
+
+class Bullet(GameObject):
+    def __init__(self, position: tuple, velocity: tuple):
+        super().__init__(position, load_a_sprite("bullet"), velocity, False)
