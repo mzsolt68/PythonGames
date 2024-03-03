@@ -51,6 +51,8 @@ class SpaceShip(GameObject):
 
 class Asteroid(GameObject):
     MIN_START_GAP = 250
+    MIN_SPEED = 1
+    MAX_SPEED = 3
 
     def __init__(self, surface: Surface, ship_position: Vector2):
         # Generate a random position that far enough from the ship
@@ -63,4 +65,7 @@ class Asteroid(GameObject):
             if position.distance_to(ship_position) > self.MIN_START_GAP:
                 break
         
-        super().__init__(position, load_a_sprite("asteroid"), (0, 0))
+        speed = random.randint(self.MIN_SPEED, self.MAX_SPEED)
+        angle = random.randint(0, 360)
+        velocity = Vector2(speed, 0).rotate(angle)
+        super().__init__(position, load_a_sprite("asteroid"), velocity)
