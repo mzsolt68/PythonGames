@@ -11,7 +11,9 @@ class SpaceRocks:
         self.screen = pg.display.set_mode((800, 600))
         self.background = load_a_sprite("space", False)
 
-        self.spaceship = SpaceShip((400, 300))
+        self.bullets = []
+
+        self.spaceship = SpaceShip((400, 300), self.bullets)
 
         self.asteroids = [Asteroid(self.screen, self.spaceship.position) for _ in range(6)]
 
@@ -25,6 +27,9 @@ class SpaceRocks:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 quit()
+            elif event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    self.spaceship.shoot()
         
         pressed_key = pg.key.get_pressed()
         if pressed_key[pg.K_ESCAPE] or pressed_key[pg.K_q]:
@@ -38,11 +43,16 @@ class SpaceRocks:
 
     @property
     def game_objects(self):
-        return [*self.asteroids, self.spaceship]
+        return [*self.asteroids, *self.bullets, self.spaceship]
 
     def _game_logic(self):
         for obj in self.game_objects:
             obj.move(self.screen)
+        
+        rect = self.screen.get_rect()
+        for bullet in self.bullets[:]:
+            if not rect.collidepoint(bullet.position):
+                self.bullets.remove(bullet)
 
     def _draw(self):
         self.screen.blit(self.background, (0, 0))
