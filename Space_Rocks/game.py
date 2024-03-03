@@ -29,8 +29,15 @@ class SpaceRocks:
                 quit()
 
     def _game_logic(self):
-        pass
+        self.spaceship.move()
+        self.asteroid.move()
 
     def _draw(self):
         self.screen.blit(self.background, (0, 0))
+        self.spaceship.draw(self.screen)
+        self.asteroid.draw(self.screen)
         pg.display.flip()
+
+        if self.spaceship.is_collides(self.asteroid):
+            self.collisions += 1
+            print(f"Collisions: #{self.collisions}")
