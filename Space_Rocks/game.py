@@ -2,6 +2,9 @@ import pygame as pg
 from utils import load_a_sprite
 from models import SpaceShip, Asteroid
 
+bullets = []
+asteroids = []
+
 class SpaceRocks:
     def __init__(self):
         pg.init()
@@ -11,11 +14,13 @@ class SpaceRocks:
         self.screen = pg.display.set_mode((800, 600))
         self.background = load_a_sprite("space", False)
 
-        self.bullets = []
+        self.spaceship = SpaceShip((400, 300))
 
-        self.spaceship = SpaceShip((400, 300), self.bullets)
-
-        self.asteroids = [Asteroid(self.screen, self.spaceship.position) for _ in range(6)]
+        global asteroids
+        asteroids = [
+            Asteroid.create_random(self.screen, self.spaceship.position)
+            for _ in range(6)
+        ]
 
     def game_loop(self):
         while True:
@@ -47,26 +52,33 @@ class SpaceRocks:
 
     @property
     def game_objects(self):
-        return [*self.asteroids, *self.bullets, self.spaceship]
+        global bullets, asteroids
+        objects = [*bullets, *asteroids]
+        if self.spaceship:
+            objects.append(self.spaceship)
+        return objects
 
     def _game_logic(self):
+        global bullets, asteroids
+
         for obj in self.game_objects:
             obj.move(self.screen)
         
         rect = self.screen.get_rect()
-        for bullet in self.bullets[:]:
+        for bullet in bullets[:]:
             if not rect.collidepoint(bullet.position):
-                self.bullets.remove(bullet)
+                bullets.remove(bullet)
         
-        for bullet in self.bullets[:]:
-            for asteroid in self.asteroids[:]:
+        for bullet in bullets[:]:
+            for asteroid in asteroids[:]:
                 if asteroid.is_collides(bullet):
-                    self.asteroids.remove(asteroid)
-                    self.bullets.remove(bullet)
+                    asteroids.remove(asteroid)
+                    asteroid.split()
+                    bullets.remove(bullet)
                     break
         
         if self.spaceship:
-            for asteroid in self.asteroids:
+            for asteroid in asteroids:
                 if asteroid.is_collides(self.spaceship):
                     self.spaceship = None
                     break

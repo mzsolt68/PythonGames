@@ -34,9 +34,8 @@ class SpaceShip(GameObject):
     ACCELERATION = 0.25
     BULLET_SPEED = 3
 
-    def __init__(self, position: tuple, bullet_container: list):
+    def __init__(self, position: tuple):
         self.direction = Vector2(DIRECTION_UP)
-        self.bullet_container = bullet_container
         super().__init__(position, load_a_sprite("spaceship"), (0, 0))
 
     def rotate(self, clockwise: bool = True):
@@ -50,7 +49,9 @@ class SpaceShip(GameObject):
     def shoot(self):
         velocity = self.direction * self.BULLET_SPEED + self.velocity
         bullet = Bullet(self.position, velocity)
-        self.bullet_container.append(bullet)
+
+        from game import bullets
+        bullets.append(bullet)
 
     def draw(self, surface: Surface):
         angle = self.direction.angle_to(DIRECTION_UP)
