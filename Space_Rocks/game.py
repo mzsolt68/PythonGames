@@ -1,6 +1,6 @@
 import pygame as pg
 from utils import load_a_sprite
-from models import GameObject
+from models import SpaceShip
 
 class SpaceRocks:
     def __init__(self):
@@ -9,13 +9,7 @@ class SpaceRocks:
         self.screen = pg.display.set_mode((800, 600))
         self.background = load_a_sprite("space", False)
 
-        sprite = load_a_sprite("spaceship")
-        self.spaceship = GameObject((400, 300), sprite, (0, 0))
-
-        sprite = load_a_sprite("asteroid")
-        self.asteroid = GameObject((50, 300), sprite, (1, 0))
-
-        self.collisions = 0
+        self.spaceship = SpaceShip((400, 300))
 
     def game_loop(self):
         while True:
