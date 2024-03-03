@@ -34,6 +34,10 @@ class SpaceRocks:
         pressed_key = pg.key.get_pressed()
         if pressed_key[pg.K_ESCAPE] or pressed_key[pg.K_q]:
             quit()
+        
+        if self.spaceship is None:
+            return
+        
         if pressed_key[pg.K_LEFT]:
             self.spaceship.rotate(clockwise=False)
         elif pressed_key[pg.K_RIGHT]:
@@ -53,6 +57,19 @@ class SpaceRocks:
         for bullet in self.bullets[:]:
             if not rect.collidepoint(bullet.position):
                 self.bullets.remove(bullet)
+        
+        for bullet in self.bullets[:]:
+            for asteroid in self.asteroids[:]:
+                if asteroid.is_collides(bullet):
+                    self.asteroids.remove(asteroid)
+                    self.bullets.remove(bullet)
+                    break
+        
+        if self.spaceship:
+            for asteroid in self.asteroids:
+                if asteroid.is_collides(self.spaceship):
+                    self.spaceship = None
+                    break
 
     def _draw(self):
         self.screen.blit(self.background, (0, 0))
