@@ -1,5 +1,5 @@
 import pygame as pg
-from utils import load_a_sprite
+from utils import load_a_sprite, print_text
 from models import SpaceShip, Asteroid
 
 bullets = []
@@ -10,6 +10,8 @@ class SpaceRocks:
         pg.init()
         pg.display.set_caption("Space Rocks")
         self.clock = pg.time.Clock()
+        self.font = pg.font.Font(None, 64)
+        self.message = ""
 
         self.screen = pg.display.set_mode((800, 600))
         self.background = load_a_sprite("space", False)
@@ -81,13 +83,21 @@ class SpaceRocks:
             for asteroid in asteroids:
                 if asteroid.is_collides(self.spaceship):
                     self.spaceship = None
+                    self.message = "Game Over"
                     break
+        
+        if not asteroids and self.spaceship:
+            self.message = "You Won!"
+
 
     def _draw(self):
         self.screen.blit(self.background, (0, 0))
         
         for obj in self.game_objects:
             obj.draw(self.screen)
+        
+        if self.message:
+            print_text(self.screen, self.message, self.font)
         
         pg.display.flip()
         self.clock.tick(30)
