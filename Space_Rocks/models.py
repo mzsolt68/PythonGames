@@ -2,7 +2,7 @@ from pygame.math import Vector2
 from pygame import Surface
 from pygame.transform import rotozoom
 import random
-from utils import load_a_sprite, wrap_position
+from utils import load_a_sprite, wrap_position, load_sound
 
 DIRECTION_UP = Vector2(0, -1)
 
@@ -36,6 +36,7 @@ class SpaceShip(GameObject):
 
     def __init__(self, position: tuple):
         self.direction = Vector2(DIRECTION_UP)
+        self.fire_sound = load_sound("laser")
         super().__init__(position, load_a_sprite("spaceship"), (0, 0))
 
     def rotate(self, clockwise: bool = True):
@@ -52,6 +53,7 @@ class SpaceShip(GameObject):
 
         from game import bullets
         bullets.append(bullet)
+        self.fire_sound.play()
 
     def draw(self, surface: Surface):
         angle = self.direction.angle_to(DIRECTION_UP)
