@@ -37,6 +37,7 @@ class SpaceShip(GameObject):
     def __init__(self, position: tuple):
         self.direction = Vector2(DIRECTION_UP)
         self.fire_sound = load_sound("laser")
+        self.is_alive = True
         super().__init__(position, load_a_sprite("spaceship"), (0, 0))
 
     def rotate(self, clockwise: bool = True):

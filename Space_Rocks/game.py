@@ -35,14 +35,14 @@ class SpaceRocks:
             if event.type == pg.QUIT:
                 quit()
             elif event.type == pg.KEYDOWN:
-                if event.key == pg.K_SPACE:
+                if event.key == pg.K_SPACE and self.spaceship.is_alive:
                     self.spaceship.shoot()
         
         pressed_key = pg.key.get_pressed()
         if pressed_key[pg.K_ESCAPE] or pressed_key[pg.K_q]:
             quit()
         
-        if self.spaceship is None:
+        if not self.spaceship.is_alive:
             return
         
         if pressed_key[pg.K_LEFT]:
@@ -56,7 +56,7 @@ class SpaceRocks:
     def game_objects(self):
         global bullets, asteroids
         objects = [*bullets, *asteroids]
-        if self.spaceship:
+        if self.spaceship.is_alive:
             objects.append(self.spaceship)
         return objects
 
@@ -82,11 +82,11 @@ class SpaceRocks:
         if self.spaceship:
             for asteroid in asteroids:
                 if asteroid.is_collides(self.spaceship):
-                    self.spaceship = None
+                    self.spaceship.is_alive = False
                     self.message = "Game Over"
                     break
         
-        if not asteroids and self.spaceship:
+        if not asteroids and self.spaceship.is_alive:
             self.message = "You Won!"
 
 
