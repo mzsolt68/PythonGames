@@ -1,6 +1,7 @@
 
 import pygame as pg
 from paddle import Paddle
+from ball import Ball
 from gamedefs import SCREEN_WIDTH, SCREEN_HEIGHT, BLACK
 
 class Breakout():
@@ -12,11 +13,13 @@ class Breakout():
 
         self.screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.paddle = Paddle((400, 575))
+        self.ball = Ball((400, 300))
 
 
     def mainloop(self):
         while True:
             self.handle_input()
+            self.ball.move()
             self.draw()
             self.clock.tick(60)
 
@@ -35,5 +38,6 @@ class Breakout():
     def draw(self):
         self.screen.fill(BLACK)
         self.paddle.draw(self.screen)
+        self.ball.draw(self.screen)
         pg.display.flip()
 
