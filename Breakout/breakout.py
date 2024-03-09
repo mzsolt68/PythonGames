@@ -2,6 +2,7 @@
 import pygame as pg
 from paddle import Paddle
 from ball import Ball
+from brick import Brick
 from gamedefs import SCREEN_WIDTH, SCREEN_HEIGHT, BLACK
 
 class Breakout():
@@ -14,7 +15,8 @@ class Breakout():
         self.screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.paddle = Paddle((400, 575))
         self.ball = Ball((400, 300))
-
+        self.bricks = []
+        self._create_bricks()
 
     def mainloop(self):
         while True:
@@ -46,6 +48,12 @@ class Breakout():
         self.screen.fill(BLACK)
         self.paddle.draw(self.screen)
         self.ball.draw(self.screen)
+        for brick in self.bricks:
+            brick.draw(self.screen)
         pg.display.flip()
         self.clock.tick(60)
 
+    def _create_bricks(self):
+        for i in range(9):
+            for j in range(13):
+                self.bricks.append(Brick((j * 60 + 10, i * 30 + 30), "green_brick"))
