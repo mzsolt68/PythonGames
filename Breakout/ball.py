@@ -8,18 +8,17 @@ from gamedefs import SCREEN_WIDTH, SCREEN_HEIGHT
 class Ball(GameObject):
     def __init__(self, position: tuple):
         self.position = Vector2(position)
-        self.move_x = 2
-        self.move_y = 2
+        self.direction = Vector2(1, 1)
+        self.speed = 2
         self.in_field = True
         super().__init__(position, load_a_sprite("ball"))
 
     def move(self):
-        self.position.x += self.move_x
-        self.position.y += self.move_y
+        self.position += self.direction * self.speed
         if self.position.x <= 0 or self.position.x >= SCREEN_WIDTH - self.sprite.get_width():
-            self.move_x *= -1
+            self.direction.x *= -1
         if self.position.y <= 0:
-            self.move_y *= -1
+            self.direction.y *= -1
         if self.position.y >= SCREEN_HEIGHT - self.sprite.get_height():
             self.in_field = False
 
