@@ -35,8 +35,12 @@ class Breakout():
             self.paddle.move(5)
 
     def _game_logic(self):
-        self.ball.check_paddle_collision(self.paddle)
         self.ball.move()
+        if self.ball.hit_paddle(self.paddle):
+            self.ball.move_y *= -1
+        if not self.ball.in_field:
+            self.ball.move_x = 0
+            self.ball.move_y = 0
     
     def _draw(self):
         self.screen.fill(BLACK)

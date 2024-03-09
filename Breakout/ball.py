@@ -10,6 +10,7 @@ class Ball(GameObject):
         self.position = Vector2(position)
         self.move_x = 2
         self.move_y = 2
+        self.in_field = True
         super().__init__(position, load_a_sprite("ball"))
 
     def move(self):
@@ -17,13 +18,16 @@ class Ball(GameObject):
         self.position.y += self.move_y
         if self.position.x <= 0 or self.position.x >= SCREEN_WIDTH - self.sprite.get_width():
             self.move_x *= -1
-        if self.position.y <= 0 or self.position.y >= SCREEN_HEIGHT - self.sprite.get_height():
+        if self.position.y <= 0:
             self.move_y *= -1
+        if self.position.y >= SCREEN_HEIGHT - self.sprite.get_height():
+            self.in_field = False
 
     def draw(self, surface: Surface):
         surface.blit(self.sprite, self.position)
 
-    def check_paddle_collision(self, paddle: 'GameObject'):
+    def hit_paddle(self, paddle: 'GameObject')-> bool:
         if self.position.y + self.sprite.get_height() >= paddle.position.y and \
                 paddle.position.x <= self.position.x <= paddle.position.x + paddle.sprite.get_width():
-            self.move_y *= -1
+            return True
+        return False
