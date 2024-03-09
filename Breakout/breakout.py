@@ -18,12 +18,11 @@ class Breakout():
 
     def mainloop(self):
         while True:
-            self.handle_input()
-            self.ball.move()
-            self.draw()
-            self.clock.tick(60)
+            self._handle_input()
+            self._game_logic()
+            self._draw()
 
-    def handle_input(self):
+    def _handle_input(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 quit()
@@ -34,10 +33,15 @@ class Breakout():
             self.paddle.move(-5)
         elif pressed_key[pg.K_RIGHT]:
             self.paddle.move(5)
+
+    def _game_logic(self):
+        self.ball.check_paddle_collision(self.paddle)
+        self.ball.move()
     
-    def draw(self):
+    def _draw(self):
         self.screen.fill(BLACK)
         self.paddle.draw(self.screen)
         self.ball.draw(self.screen)
         pg.display.flip()
+        self.clock.tick(60)
 

@@ -22,3 +22,8 @@ class Ball(GameObject):
 
     def draw(self, surface: Surface):
         surface.blit(self.sprite, self.position)
+
+    def check_paddle_collision(self, paddle: 'GameObject'):
+        if self.position.y + self.sprite.get_height() >= paddle.position.y and \
+                paddle.position.x <= self.position.x <= paddle.position.x + paddle.sprite.get_width():
+            self.move_y *= -1
