@@ -1,6 +1,7 @@
 
 import pygame as pg
 from paddle import Paddle
+from gamedefs import SCREEN_WIDTH, SCREEN_HEIGHT, BLACK
 
 class Breakout():
     def __init__(self):
@@ -9,7 +10,7 @@ class Breakout():
         self.clock = pg.time.Clock()
         self.font = pg.font.Font(None, 64)
 
-        self.screen = pg.display.set_mode((800, 600))
+        self.screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.paddle = Paddle((400, 575))
 
 
@@ -32,7 +33,7 @@ class Breakout():
             self.paddle.move(5)
     
     def draw(self):
-        self.screen.fill((0, 0, 0))
+        self.screen.fill(BLACK)
         self.paddle.draw(self.screen)
         pg.display.flip()
 
