@@ -45,50 +45,36 @@ class Ball(GameObject):
         elif self.direction == Vector2(-1, -1):
             if self._hit_on_bottom(brick) or self._hit_on_right(brick):
                 return True
-        # if self._hit_on_top(brick) or self._hit_on_bottom(brick) or self._hit_on_left(brick) or self._hit_on_right(brick):
-        #     return True
         return False
 
-    def _hit_on_top(self, brick: 'GameObject')-> bool:
-        if brick.position.x <= self.position.x - self.radius <= brick.position.x + brick.sprite.get_width() \
-            and abs(brick.position.y - self.position.y) <= self.sprite.get_height():
-                print(self.direction)
-                self.direction.y *= -1
-                print("hit on top")
-                print(f"ball: {self.position}, brick: {brick.position}")
-                print(self.direction)
-                return True
-        return False
-
-    def _hit_on_bottom(self, brick: 'GameObject') -> bool:
-        if brick.position.x <= self.position.x - self.radius <= brick.position.x + brick.sprite.get_width() \
-                and 0 <= self.position.y - (brick.position.y + brick.sprite.get_height()) <= self.radius:
-            print(self.direction)
+    def _hit_on_top(self, brick: 'GameObject') -> bool:
+        if brick.position.x <= self.position.x <= brick.position.x + brick.sprite.get_width() \
+                and 0 <= brick.position.y - (self.position.y + self.radius) <= self.radius:
             self.direction.y *= -1
-            print("hit on bottom")
-            print(f"ball: {self.position}, brick: {brick.position}")
-            print(self.direction)
+            print("hit on top")
             return True
         return False
 
-    def _hit_on_left(self, brick: 'GameObject')-> bool:
-        if brick.position.y <= self.position.y - self.radius <= brick.position.y + brick.sprite.get_height() \
-            and abs(brick.position.x - self.position.x) <= self.sprite.get_width():
-                print(self.direction)
-                self.direction.x *= -1
-                print("hit on left")
-                print(f"ball: {self.position}, brick: {brick.position}")
-                print(self.direction)
-                return True
+    def _hit_on_bottom(self, brick: 'GameObject') -> bool:
+        if brick.position.x <= self.position.x <= brick.position.x + brick.sprite.get_width() \
+                and 0 <= self.position.y - (brick.position.y + brick.sprite.get_height()) <= self.radius:
+            self.direction.y *= -1
+            print("hit on bottom")
+            return True
         return False
 
-    def _hit_on_right(self, brick: 'GameObject')-> bool:
-        if brick.position.y <= self.position.y - self.radius <= brick.position.y + brick.sprite.get_height() \
-            and abs(brick.position.x + brick.sprite.get_width() - self.position.x) == 0:
-                print(self.direction)
-                self.direction.x *= -1
-                print("hit on right")
-                print(f"ball: {self.position}, brick: {brick.position}")
-                print(self.direction)
-                return True
+    def _hit_on_left(self, brick: 'GameObject') -> bool:
+        if brick.position.y <= self.position.y <= brick.position.y + brick.sprite.get_height() \
+                and 0 <= brick.position.x - (self.position.x + self.radius) <= self.radius:
+            self.direction.x *= -1
+            print("hit on left")
+            return True
+        return False
+
+    def _hit_on_right(self, brick: 'GameObject') -> bool:
+        if brick.position.y <= self.position.y <= brick.position.y + brick.sprite.get_height() \
+                and 0 <= self.position.x - (brick.position.x + brick.sprite.get_width()) <= self.radius:
+            self.direction.x *= -1
+            print("hit on right")
+            return True
         return False
