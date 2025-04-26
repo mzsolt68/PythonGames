@@ -41,7 +41,6 @@ class Ball(GameObject):
         if brick.position.x <= self.position.x <= brick.position.x + brick.sprite.get_width() \
                 and 0 <= brick.position.y - (self.position.y + self.radius) <= self.radius:
             self.direction.y *= -1
-            print("hit on top")
             return True
         return False
 
@@ -49,7 +48,6 @@ class Ball(GameObject):
         if brick.position.x <= self.position.x <= brick.position.x + brick.sprite.get_width() \
                 and 0 <= self.position.y - (brick.position.y + brick.sprite.get_height()) <= self.radius:
             self.direction.y *= -1
-            print("hit on bottom")
             return True
         return False
 
@@ -57,7 +55,6 @@ class Ball(GameObject):
         if brick.position.y <= self.position.y <= brick.position.y + brick.sprite.get_height() \
                 and 0 <= brick.position.x - (self.position.x + self.radius) <= self.radius:
             self.direction.x *= -1
-            print("hit on left")
             return True
         return False
 
@@ -65,6 +62,5 @@ class Ball(GameObject):
         if brick.position.y <= self.position.y <= brick.position.y + brick.sprite.get_height() \
                 and 0 <= self.position.x - (brick.position.x + brick.sprite.get_width()) <= self.radius:
             self.direction.x *= -1
-            print("hit on right")
             return True
         return False
