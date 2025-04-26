@@ -1,4 +1,3 @@
-
 import pygame as pg
 from pygame.math import Vector2
 from paddle import Paddle
@@ -39,8 +38,7 @@ class Breakout():
 
     def _game_logic(self):
         self.ball.move()
-        if self.ball.hit_paddle(self.paddle):
-            self.ball.direction.y *= -1
+        self.ball.hit_paddle(self.paddle)
         if not self.ball.in_field:
             self.ball.direction = Vector2(0, 0)
         for brick in self.bricks:

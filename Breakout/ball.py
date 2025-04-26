@@ -26,11 +26,35 @@ class Ball(GameObject):
     def draw(self, surface: Surface):
         surface.blit(self.sprite, self.position)
 
-    def hit_paddle(self, paddle: 'GameObject')-> bool:
-        if self.position.y + self.sprite.get_height() >= paddle.position.y and \
-                paddle.position.x <= self.position.x <= paddle.position.x + paddle.sprite.get_width():
-            return True
-        return False
+    def hit_paddle(self, paddle: 'GameObject') -> bool:
+        # Create rectangles for the ball and the paddle
+        ball_rect = Rect(
+            self.position.x - self.radius,  # Ball's left
+            self.position.y - self.radius,  # Ball's top
+            self.radius * 2,                # Ball's width
+            self.radius * 2                 # Ball's height
+        )
+        paddle_rect = Rect(
+            paddle.position.x,              # Paddle's left
+            paddle.position.y,              # Paddle's top
+            paddle.sprite.get_width(),      # Paddle's width
+            paddle.sprite.get_height()      # Paddle's height
+        )
+
+        # Check if the ball collides with the paddle
+        if ball_rect.colliderect(paddle_rect):
+            # Reverse the vertical direction of the ball
+            self.direction.y *= -1
+
+            # Adjust the horizontal direction based on where the ball hits the paddle
+            paddle_center = paddle.position.x + paddle.sprite.get_width() / 2
+            ball_center = self.position.x
+            offset = (ball_center - paddle_center) / (paddle.sprite.get_width() / 2)
+            self.direction.x = offset  # Adjust horizontal direction proportionally
+            self.direction = self.direction.normalize()  # Normalize to maintain speed
+
+            return True  # Collision occurred
+        return False  # No collision
 
     def hit_brick(self, brick: 'GameObject') -> bool:
         # Create rectangles for the ball and the brick
