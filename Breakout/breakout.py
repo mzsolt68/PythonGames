@@ -15,7 +15,7 @@ class Breakout():
 
         self.screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.paddle = Paddle((400, 575))
-        self.ball = Ball((400, 300))
+        self.ball = Ball((410, 550))
         self.bricks = []
         self._create_bricks()
 
@@ -43,6 +43,9 @@ class Breakout():
             self.ball.direction.y *= -1
         if not self.ball.in_field:
             self.ball.direction = Vector2(0, 0)
+        for brick in self.bricks:
+            if self.ball.hit_brick(brick):
+                self.bricks.remove(brick)
     
     def _draw(self):
         self.screen.fill(BLACK)

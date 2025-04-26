@@ -6,7 +6,6 @@ from gamedefs import SCREEN_WIDTH
 
 class Brick(GameObject):
     def __init__(self, position: tuple, filename: str):
-        self.position = Vector2(position)
         super().__init__(position, load_a_sprite(filename))
 
     def draw(self, surface: Surface):
