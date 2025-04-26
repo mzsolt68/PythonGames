@@ -60,15 +60,15 @@ class Ball(GameObject):
                 return True
         return False
 
-    def _hit_on_bottom(self, brick: 'GameObject')-> bool:
+    def _hit_on_bottom(self, brick: 'GameObject') -> bool:
         if brick.position.x <= self.position.x - self.radius <= brick.position.x + brick.sprite.get_width() \
-             and abs(brick.position.y + brick.sprite.get_height() - self.position.y) == 0:
-                print(self.direction)
-                self.direction.y *= -1
-                print("hit on bottom")
-                print(f"ball: {self.position}, brick: {brick.position}")
-                print(self.direction)
-                return True
+                and 0 <= self.position.y - (brick.position.y + brick.sprite.get_height()) <= self.radius:
+            print(self.direction)
+            self.direction.y *= -1
+            print("hit on bottom")
+            print(f"ball: {self.position}, brick: {brick.position}")
+            print(self.direction)
+            return True
         return False
 
     def _hit_on_left(self, brick: 'GameObject')-> bool:
