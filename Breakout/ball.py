@@ -1,6 +1,6 @@
 from gameobject import GameObject
 from utils import load_a_sprite
-from pygame import Surface
+from pygame import Surface, Rect
 from pygame.math import Vector2
 from gamedefs import SCREEN_WIDTH, SCREEN_HEIGHT
 
@@ -33,9 +33,34 @@ class Ball(GameObject):
         return False
 
     def hit_brick(self, brick: 'GameObject') -> bool:
-        if self._hit_on_top(brick) or self._hit_on_bottom(brick) or self._hit_on_left(brick) or self._hit_on_right(brick):
-            return True
-        return False
+        # Create rectangles for the ball and the brick
+        ball_rect = Rect(
+            self.position.x - self.radius,  # Ball's left
+            self.position.y - self.radius,  # Ball's top
+            self.radius * 2,                # Ball's width
+            self.radius * 2                 # Ball's height
+        )
+        brick_rect = Rect(
+            brick.position.x,               # Brick's left
+            brick.position.y,               # Brick's top
+            brick.sprite.get_width(),       # Brick's width
+            brick.sprite.get_height()       # Brick's height
+        )
+
+        # Check if the ball collides with the brick
+        if ball_rect.colliderect(brick_rect):
+            # Determine the collision side
+            if ball_rect.bottom <= brick_rect.top + self.radius:  # Hit from the top
+                self.direction.y *= -1
+            elif ball_rect.top >= brick_rect.bottom - self.radius:  # Hit from the bottom
+                self.direction.y *= -1
+            elif ball_rect.right <= brick_rect.left + self.radius:  # Hit from the left
+                self.direction.x *= -1
+            elif ball_rect.left >= brick_rect.right - self.radius:  # Hit from the right
+                self.direction.x *= -1
+
+            return True  # Collision occurred
+        return False  # No collision
 
     def _hit_on_top(self, brick: 'GameObject') -> bool:
         if brick.position.x <= self.position.x <= brick.position.x + brick.sprite.get_width() \
