@@ -32,19 +32,9 @@ class Ball(GameObject):
             return True
         return False
 
-    def hit_brick(self, brick: 'GameObject')-> bool:
-        if self.direction == Vector2(1, 1):
-             if self._hit_on_top(brick) or self._hit_on_left(brick):
-                 return True
-        elif self.direction == Vector2(1, -1):
-            if self._hit_on_bottom(brick) or self._hit_on_left(brick):
-                return True
-        elif self.direction == Vector2(-1, 1):
-            if self._hit_on_top(brick) or self._hit_on_right(brick):
-                return True
-        elif self.direction == Vector2(-1, -1):
-            if self._hit_on_bottom(brick) or self._hit_on_right(brick):
-                return True
+    def hit_brick(self, brick: 'GameObject') -> bool:
+        if self._hit_on_top(brick) or self._hit_on_bottom(brick) or self._hit_on_left(brick) or self._hit_on_right(brick):
+            return True
         return False
 
     def _hit_on_top(self, brick: 'GameObject') -> bool:
