@@ -61,31 +61,3 @@ class Ball(GameObject):
 
             return True  # Collision occurred
         return False  # No collision
-
-    def _hit_on_top(self, brick: 'GameObject') -> bool:
-        if brick.position.x <= self.position.x <= brick.position.x + brick.sprite.get_width() \
-                and 0 <= brick.position.y - (self.position.y + self.radius) <= self.radius:
-            self.direction.y *= -1
-            return True
-        return False
-
-    def _hit_on_bottom(self, brick: 'GameObject') -> bool:
-        if brick.position.x <= self.position.x <= brick.position.x + brick.sprite.get_width() \
-                and 0 <= self.position.y - (brick.position.y + brick.sprite.get_height()) <= self.radius:
-            self.direction.y *= -1
-            return True
-        return False
-
-    def _hit_on_left(self, brick: 'GameObject') -> bool:
-        if brick.position.y <= self.position.y <= brick.position.y + brick.sprite.get_height() \
-                and 0 <= brick.position.x - (self.position.x + self.radius) <= self.radius:
-            self.direction.x *= -1
-            return True
-        return False
-
-    def _hit_on_right(self, brick: 'GameObject') -> bool:
-        if brick.position.y <= self.position.y <= brick.position.y + brick.sprite.get_height() \
-                and 0 <= self.position.x - (brick.position.x + brick.sprite.get_width()) <= self.radius:
-            self.direction.x *= -1
-            return True
-        return False
