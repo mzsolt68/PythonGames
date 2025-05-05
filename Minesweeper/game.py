@@ -75,3 +75,12 @@ class Minesweeper:
     
     def reveal_cell(self, row: int, column: int):
         pass
+
+    def reveal_adjacent_empty_cells(self, row: int, column: int):
+        pass
+
+    def check_win_condition(self):
+        pass
+
+    def game_over(self, won: bool):
+        pass
