@@ -19,7 +19,7 @@ class Minesweeper:
         game_menu = Menu(menu, tearoff=0)
         game_menu.add_command(label="10x10", command=lambda: self.start_game(10, 10))
         game_menu.add_command(label="20x20", command=lambda: self.start_game(20, 20))
-        game_menu.add_command(label="50x50", command=lambda: self.start_game(50, 50))
+        game_menu.add_command(label="30x30", command=lambda: self.start_game(30, 30))
         game_menu.add_separator()
         game_menu.add_command(label="Exit", command=self.cleanup)
         menu.add_cascade(label="Game", menu=game_menu)
